@@ -1,0 +1,27 @@
+
+								if (isset($_POST['submit'])) {
+
+                                    $class_id = $_POST['class_id'];
+                                    $batch_id = $_POST['batch_id'];
+                                    $fromTime = $_POST['fromTime'];
+                                    $toTime = $_POST['toTime'];
+                                    $day = $_POST['day'];
+
+                                    $qcount = mysql_query(" SELECT COUNT(*) FROM timetable WHERE day LIKE '$day' AND class_id LIKE '$class_id' AND timeslot LIKE '$timeslot' ");
+                                    $qresult = mysql_result($qcount,0);
+                                    if($qresult == 0)
+                                    {
+                                        mysql_query("insert into timetable (class_id,batch_id,timeslot,day)
+                                                        values ('$class_id','$batch_id','$timeslot','$day')                                    
+                                                   ") or die(mysql_error());
+
+                                                   ?>
+                                                        <div class="alert alert-info"><strong>Successfully Added</strong></div>
+                                                   <?php
+                                        
+                                    }else{
+                                        ?>
+                                             <div class="alert alert-danger"><strong>Rejected! This class room is occupied. Please refer the time table</strong></div>
+                                        <?php
+                                    }
+                                }
